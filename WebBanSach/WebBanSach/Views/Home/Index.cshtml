@@ -1,0 +1,92 @@
+﻿@model IEnumerable<WebBanSach.Models.Sach>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+
+@{ 
+    string tenTK = (Html.Action("GetTenTK", "Home")).ToString();
+}
+
+<!-- Products section -->
+<section id="aa-product">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="aa-product-area">
+                        <div class="aa-product-inner">
+                            <!-- start prduct navigation -->
+                            <ul class="nav nav-tabs aa-products-tab">
+                                <li class="active"><a href="#hot" data-toggle="tab">HOT</a></li>
+                                <li><a href="#sale" data-toggle="tab">SALE</a></li>
+                            </ul>
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                <!-- Start hot product category -->
+                                <div class="tab-pane fade in active" id="hot">
+                                    <ul class="aa-product-catg">
+                                        <!-- start single product item -->
+                                        @foreach (var item in Model)
+                                        {
+                                            if(@item.MaTrangThai.Contains("HOT"))
+                                            {
+                                                <li>
+                                                    <figure>
+                                                        <a class="aa-product-img" href="/DanhSachSanPham/ChiTietSach?MaSach=@item.MaSach"><img src="@item.BiaSach" width="250px" height="300px" alt="img"></a>
+                                                        <a class="aa-add-card-btn" href="/GioHang/ThemVaoGio?TaiKhoan=@tenTK&MaSach=@item.MaSach"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
+                                                        <figcaption>
+                                                            <h4 class="aa-product-title"><a href="#">@item.TenSach</a></h4>
+                                                            <span class="aa-product-price">@item.Gia.000d</span>
+                                                        </figcaption>
+                                                    </figure>
+                                                    <!-- product badge -->
+                                                    <span class="aa-badge aa-hot" href="#">HOT!</span>
+                                                </li>
+                                            }
+                                        }
+                                    </ul>
+                                    <a class="aa-browse-btn" href="/DanhSachSanPham/Index">Browse all Product <span class="fa fa-long-arrow-right"></span></a>
+                                </div>
+                                <!-- / hot product category -->
+                                <!-- start sale product category -->
+                                <div class="tab-pane fade" id="sale">
+                                    <ul class="aa-product-catg">
+                                        <!-- start single product item -->
+                                        @foreach (var item in Model)
+                                        {
+                                            if (@item.MaTrangThai.Contains("SALE"))
+                                            {
+                                                int giaSanPham = item.Gia ?? 0;
+                                                string tam = new String(item.MaTrangThai.Where(Char.IsDigit).ToArray());
+                                                int giaSale = int.Parse(tam);
+                                                int gia_sau_sale = giaSanPham - (giaSanPham * giaSale / 100);
+
+                                                <li>
+                                                    <figure>
+                                                        <a class="aa-product-img" href="/DanhSachSanPham/ChiTietSach?MaSach=@item.MaSach"><img src="@item.BiaSach" width="250px" height="300px"></a>
+                                                        <a class="aa-add-card-btn" href="/GioHang/ThemVaoGio?TaiKhoan=@tenTK&MaSach=@item.MaSach"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
+                                                        <figcaption>
+                                                            <h4 class="aa-product-title"><a href="#">@item.TenSach</a></h4>
+                                                            <span class="aa-product-price">@gia_sau_sale.000d</span><span class="aa-product-price"><del>@item.Gia.000d</del></span>
+                                                        </figcaption>
+                                                    </figure>
+                                                    <!-- product badge -->
+                                                    <span class="aa-badge aa-sale" href="#">SALE!</span>
+                                                </li>
+                                            }
+                                        }
+                                    </ul>
+                                    <a class="aa-browse-btn" href="/DanhSachSanPham/Index">Browse all Product <span class="fa fa-long-arrow-right"></span></a>
+                                </div>
+                                <!-- / sale product category -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- / Products section -->

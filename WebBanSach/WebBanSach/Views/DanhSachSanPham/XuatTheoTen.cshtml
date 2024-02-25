@@ -1,0 +1,87 @@
+﻿@model PagedList.IPagedList<WebBanSach.Models.Sach>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "XuatTheoTen";
+    Layout = "~/Views/Shared/_LayoutPage3.cshtml";
+}
+
+@{
+    string tenTK = (Html.Action("GetTenTK", "Home")).ToString();
+}
+
+
+<div class="col-lg-9 col-md-9 col-sm-8 col-md-push-3">
+    <div class="aa-product-catg-content">
+        <div class="aa-product-catg-head">
+            <div class="aa-product-catg-head-right">
+                <a id="grid-catg" href="#"><span class="fa fa-th"></span></a>
+                <a id="list-catg" href="#"><span class="fa fa-list"></span></a>
+            </div>
+        </div>
+        <div class="aa-product-catg-body">
+            <ul class="aa-product-catg">
+                <!-- start single product item -->
+                @{
+                    foreach (var item in Model)
+                    {
+                        if (@item.MaTrangThai.Contains("HOT"))
+                        {
+                            <li>
+                                <figure>
+                                    <a class="aa-product-img" href="/DanhSachSanPham/ChiTietSach?MaSach=@item.MaSach"><img src="@item.BiaSach" width="250px" height="300px" alt="img"></a>
+                                    <a class="aa-add-card-btn" href="/GioHang/ThemVaoGio?TaiKhoan=@tenTK&MaSach=@item.MaSach"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
+                                    <figcaption>
+                                        <h4 class="aa-product-title"><a href="#">@item.TenSach</a></h4>
+                                        <span class="aa-product-price">@item.Gia.000d</span>
+                                    </figcaption>
+                                </figure>
+                                <!-- product badge -->
+                                <span class="aa-badge aa-hot" href="#">HOT!</span>
+                            </li>
+                        }
+                        else if (@item.MaTrangThai.Contains("SALE"))
+                        {
+                            int giaSanPham = item.Gia ?? 0;
+                            string tam = new String(item.MaTrangThai.Where(Char.IsDigit).ToArray());
+                            int giaSale = int.Parse(tam);
+                            int gia_sau_sale = giaSanPham - (giaSanPham * giaSale / 100);
+                            <li>
+                                <figure>
+                                    <a class="aa-product-img" href="/DanhSachSanPham/ChiTietSach?MaSach=@item.MaSach"><img src="@item.BiaSach" width="250px" height="300px" alt="img"></a>
+                                    <a class="aa-add-card-btn" href="/GioHang/ThemVaoGio?TaiKhoan=@tenTK&MaSach=@item.MaSach"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
+                                    <figcaption>
+                                        <h4 class="aa-product-title"><a href="#">@item.TenSach</a></h4>
+                                        <span class="aa-product-price">@gia_sau_sale.000d</span><span class="aa-product-price"><del>@item.Gia.000d</del></span>
+                                    </figcaption>
+                                </figure>
+                                <!-- product badge -->
+                                <span class="aa-badge aa-sale" href="#">SALE!</span>
+                            </li>
+                        }
+                        else
+                        {
+                            <li>
+                                <figure>
+                                    <a class="aa-product-img" href="/DanhSachSanPham/ChiTietSach?MaSach=@item.MaSach"><img src="@item.BiaSach" width="250px" height="300px" alt="img"></a>
+                                    <a class="aa-add-card-btn" href="/GioHang/ThemVaoGio?TaiKhoan=@tenTK&MaSach=@item.MaSach"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
+                                    <figcaption>
+                                        <h4 class="aa-product-title"><a href="#">@item.TenSach</a></h4>
+                                        <span class="aa-product-price">@item.Gia.000d</span>
+                                    </figcaption>
+                                </figure>
+                            </li>
+                        }
+                    }
+                }
+
+            </ul>
+        </div>
+        <!-- Thêm mã phân trang -->
+        <br />
+        Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+
+        @Html.PagedListPager(Model, page => Url.Action("XuatTheoTen",
+            new { page }))
+        <!-- Kết thúc -->
+    </div>
+</div>

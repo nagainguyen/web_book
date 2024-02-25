@@ -1,0 +1,27 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutPage2.cshtml";
+}
+
+<div class="center">
+    <h1>Đăng nhập</h1>
+    <form action="/DangNhap/Login" method="post">
+        <div class="txt_field">
+            <input type="text" name="TaiKhoan">
+            <span></span>
+            <label>Tài khoản</label>
+        </div>
+        <div class="txt_field">
+            <input type="password" name="MatKhau">
+            <span></span>
+            <label>Mật khẩu</label>
+        </div>
+        <input type="submit" value="Đăng nhập">
+        <div class="signup_link">
+            <a href="/DangNhap/DangKy">Đăng kí</a>
+        </div>
+    </form>
+</div>
+
+
+

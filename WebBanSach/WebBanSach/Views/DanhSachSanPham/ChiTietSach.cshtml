@@ -1,0 +1,65 @@
+﻿@model WebBanSach.Models.Sach
+
+@{
+    ViewBag.Title = "ChiTietSach";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+
+@{
+    string tenTK = (Html.Action("GetTenTK", "Home")).ToString();
+}
+
+<section id="aa-product-details">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="aa-product-details-area">
+                    <div class="aa-product-details-content">
+                        <div class="row">
+                            <!-- Modal view slider -->
+                            <div class="col-md-5 col-sm-5 col-xs-12">
+                                <div class="aa-product-view-slider">
+                                    <div id="demo-1" class="simpleLens-gallery-container">
+                                        <div class="simpleLens-container">
+                                            <img src="@Model.BiaSach" width="250px" height="300px" alt="img">
+                                            @*<div class="simpleLens-big-image-container"><a data-lens-image="@Model.BiaSach" class="simpleLens-lens-image"><img src="@Model.BiaSach" class="simpleLens-big-image"></a></div>*@
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Modal view content -->
+                            <div class="col-md-7 col-sm-7 col-xs-12">
+                                <div class="aa-product-view-content">
+                                    <h1>@Model.TenSach</h1>
+
+                                    @if (Model.MaTrangThai.Contains("SALE"))
+                                    {
+                                        int giaSanPham = Model.Gia ?? 0;
+                                        string tam = new String(Model.MaTrangThai.Where(Char.IsDigit).ToArray());
+                                        int giaSale = int.Parse(tam);
+                                        int gia_sau_sale = giaSanPham - (giaSanPham * giaSale / 100);
+
+                                        <h2>@gia_sau_sale.000d  <del>@Model.Gia.000d</del></h2>
+                                    }
+                                    else
+                                    {
+                                        <h2>@Model.Gia.000d</h2>
+                                    }
+
+                                    <h3>Thể loại: @Model.TheLoai.TenTheLoai</h3>
+                                    <h3>Tác giả: @Model.TacGia</h3>
+                                    <h3>Nhà xuất bản: @Model.NhaXuatBan</h3>
+
+                                    <div class="aa-prod-view-bottom">
+                                        <a class="aa-add-to-cart-btn" href="/GioHang/ThemVaoGio?TaiKhoan=@tenTK&MaSach=@Model.MaSach">Add To Cart</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

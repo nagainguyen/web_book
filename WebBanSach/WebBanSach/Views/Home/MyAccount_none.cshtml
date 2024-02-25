@@ -1,0 +1,46 @@
+﻿@model WebBanSach.Models.TaiKhoan
+
+@{
+    ViewBag.Title = "MyAccount_none";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+
+<section id="aa-contact">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="aa-contact-area">
+                    <div class="aa-contact-top">
+                        <h2>Thông tin tài khoản</h2>
+                    </div>
+                    <!-- Contact address -->
+                    <div class="aa-contact-address">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="aa-contact-address-left">
+                                    @Html.DisplayNameFor(p => p.TenTK):
+                                    @Html.DisplayFor(p => p.TenTK)
+                                    <br />
+                                    @Html.DisplayNameFor(p => p.TenKhach):
+                                    @Html.DisplayFor(p => p.TenKhach)
+                                    <br />
+                                    @Html.DisplayNameFor(p => p.SDT):
+                                    @Html.DisplayFor(p => p.SDT)
+                                    <br />
+                                    @Html.DisplayNameFor(p => p.Email):
+                                    @Html.DisplayFor(p => p.Email)
+                                    <br />
+                                    @Html.DisplayNameFor(p => p.DiaChi):
+                                    @Html.DisplayFor(p => p.DiaChi)
+                                    <br />
+                                    @Html.DisplayNameFor(p => p.SoThe):
+                                    @Html.DisplayFor(p => p.SoThe)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

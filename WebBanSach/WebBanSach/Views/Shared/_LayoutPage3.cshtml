@@ -1,0 +1,98 @@
+﻿@using WebBanSach.Models
+@{ 
+    NhaSachContext context = new NhaSachContext();
+    List<TheLoai> listTheLoai = context.TheLoai.ToList();
+    List<Sach> listSach = context.Sach.ToList();
+    int i = 0;
+}
+@{
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+
+<section id="aa-product-category">
+    <div class="container">
+        <div class="row">
+            @RenderBody()
+            <div class="col-lg-3 col-md-3 col-sm-4 col-md-pull-9">
+                <aside class="aa-sidebar">
+                    <!-- single sidebar -->
+                    <div class="aa-sidebar-widget">
+                        <h3>Category</h3>
+                        <ul class="aa-catg-nav">
+                            @{
+                                foreach (var item in listTheLoai)
+                                {
+                                    <li><a href="/DanhSachSanPham/GetTheLoai?MaTheLoai=@item.MaTheLoai">@item.TenTheLoai</a></li>
+                                }
+                            }
+                        </ul>
+                    </div>
+
+                    <!-- single sidebar -->
+                    <div class="aa-sidebar-widget">
+                        <h3>Hot</h3>
+                        <div class="aa-recently-views">
+                            <ul>
+                                @{
+                                    foreach (var item in listSach)
+                                    {
+                                        if (@item.MaTrangThai.Contains("HOT"))
+                                        {
+                                            <li>
+                                                <a href="/DanhSachSanPham/ChiTietSach?MaSach=@item.MaSach" class="aa-cartbox-img"><img alt="img" src="@item.BiaSach"></a>
+                                                <div class="aa-cartbox-info">
+                                                    <h4><a href="#">@item.TenSach</a></h4>
+                                                    <p>@item.Gia.000d</p>
+                                                </div>
+                                            </li>
+                                            i++;
+                                        }
+                                        if (i == 3)
+                                        {
+                                            i = 0;
+                                            break;
+                                        }
+                                    }
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- single sidebar -->
+                    <div class="aa-sidebar-widget">
+                        <h3>Sale</h3>
+                        <div class="aa-recently-views">
+                            <ul>
+                                @{
+                                    foreach (var item in listSach)
+                                    {
+                                        if (@item.MaTrangThai.Contains("SALE"))
+                                        {
+                                            int giaSanPham = item.Gia ?? 0;
+                                            string tam = new String(item.MaTrangThai.Where(Char.IsDigit).ToArray());
+                                            int giaSale = int.Parse(tam);
+                                            int gia_sau_sale = giaSanPham - (giaSanPham * giaSale / 100);
+                                            <li>
+                                                <a href="/DanhSachSanPham/ChiTietSach?MaSach=@item.MaSach" class="aa-cartbox-img"><img alt="img" src="@item.BiaSach"></a>
+                                                <div class="aa-cartbox-info">
+                                                    <h4><a href="#">@item.TenSach</a></h4>
+                                                    <p>@gia_sau_sale.000d</p>
+                                                </div>
+                                            </li>
+                                            i++;
+                                        }
+                                        if (i == 3)
+                                        {
+                                            i = 0;
+                                            break;
+                                        }
+                                    }
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+
+        </div>
+    </div>
+</section>
